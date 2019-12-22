@@ -34,6 +34,26 @@ module Unifi
         @version == 'v4' ? "#{url}api/login" : "#{url}login"
       end
 
+      def health
+        read "#{api_url}stat/health"
+      end
+
+      def get_self
+        read "#{api_url}self"
+      end
+
+      def country_code
+        read "#{api_url}stat/ccode"
+      end
+
+      def current_channel
+        read "#{api_url}stat/current-channel"
+      end
+
+      def sys_info
+        read "#{api_url}stat/sysinfo"
+      end
+
       def get_alerts
         read "#{api_url}list/alarm"
       end
@@ -56,8 +76,12 @@ module Unifi
         return read "#{api_url}stat/report/hourly.site", params, :post
       end
 
-      def get_events
-        read "#{api_url}stat/event"
+      def get_events(oldest=false)
+        unless oldest
+          read "#{api_url}stat/event"
+        else
+          read "#{api_url}rest/event"
+        end
       end
 
       def get_aps
